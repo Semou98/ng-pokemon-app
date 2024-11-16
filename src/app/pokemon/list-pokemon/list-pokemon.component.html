@@ -1,0 +1,36 @@
+<div class="container">
+    <div class="row">
+
+        <app-search-pokemon></app-search-pokemon>
+
+        <div *ngFor="let pokemon of pokemonList" class="col-6 col-md-4">
+            <div (click)="goToPokemon(pokemon)" class="card mb-4" pkmnBorderCard>
+                <div class="row g-0">
+                    <div class="col-4">
+                        <img [src]="pokemon.picture" class="img-fluid rounded-start" alt="Un Pokémon">
+                    </div>
+                    <div class="col-8">
+                        <div class="card-body">
+                            <h6 class="card-title"><small>{{pokemon.name}}</small></h6>
+                            <p class="card-text"><small class="text-body-secondary">{{pokemon.created|date:"dd/MM/yyyy"}}</small></p>
+                            <span *ngFor="let type of pokemon.types" class="{{type | pokemonTypeColor}}"> {{type}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf='!pokemonList' class="text-center">
+            <app-loader></app-loader>
+        </div>
+
+    </div>
+</div>
+
+<button type="button" class="btn btn-danger btn-lg rounded-circle"
+        style="position: fixed; bottom: 25px; right: 25px;"
+        routerLink="/pokemon/add">
+    <span>+</span>
+</button>
+
+

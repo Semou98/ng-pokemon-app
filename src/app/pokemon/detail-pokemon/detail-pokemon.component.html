@@ -1,0 +1,56 @@
+<div class="container">
+    <div class="row">
+        <div *ngIf="pokemon" class="col-12 col-md-8 offset-md-2">
+            <h2 class="text-center">{{pokemon.name}}</h2>
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-3 col-md-3 col-lg-2">
+                        <img [src]="pokemon.picture" class="img-fluid" alt="{{pokemon.name}}">
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-12">
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Nom</th>
+                                        <td>{{pokemon.name}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Points de vie</th>
+                                    <td>{{pokemon.hp}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Dégâts</th>
+                                    <td>{{pokemon.cp}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Types</th>
+                                    <td>
+                                        <span *ngFor="let type of pokemon.types" class="{{type | pokemonTypeColor}}">{{type}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Date de création</th>
+                                    <td>{{pokemon.created | date:"dd/MM/yyyy"}}</td>
+                                </tr> 
+                            </tbody>
+                        </table> 
+                        <div>
+                            <a (click)="goToPokemonList()" class="btn btn-primary">Retour</a>
+                            <a (click)="goToEditPokemon(pokemon)" class="btn btn-primary ms-5">Editer</a>
+                            <a (click)="deletePokemon(pokemon)" class="btn btn-primary ms-5">Supprimer</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf='!pokemon' class="text-center">
+            <app-loader></app-loader>
+        </div>
+    </div>
+</div>
+
+
+
+

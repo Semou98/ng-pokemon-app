@@ -1,0 +1,96 @@
+<form *ngIf="pokemon" #pokemonForm="ngForm" (ngSubmit)="onSubmit()" class="row g-3">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="card">
+        <div class="card-body">
+
+          <!-- Pokemon name -->
+          <div class="col-md-12 mb-3">
+            <label for="name" class="form-label">Nom</label>
+            <input type="text" class="form-control" id="name"
+                   pattern="^[a-zA-Z0-9àéèç]{1,25}$" required
+                   [(ngModel)]="pokemon.name" name="name" 
+                   #name="ngModel"
+                   [class.is-invalid]="name.invalid && name.touched"
+            >
+            <div [hidden]="name.valid || name.pristine" style="color: red;">
+                Le nom du pokémon est requis (1-25).
+            </div>
+          </div>
+
+          <!-- Pokemon picture -->
+          <div *ngIf="isAddForm" class="col-md-12 mb-3">
+            <label for="picture" class="form-label">Picture <small><em>(remplacez les trois zéro à la fin avec un nombre à 3 chiffres, exemple: 001)</em></small> </label>
+            <input type="url" class="form-control" id="picture"
+                   required
+                   [(ngModel)]="pokemon.picture" name="picture" 
+                   #picture="ngModel"
+                   [class.is-invalid]="picture.invalid && picture.touched"
+            >
+            <div [hidden]="picture.valid || picture.pristine" style="color: red;">
+                Un lien valide de l'image du pokemon est requis
+            </div>
+          </div>
+
+          <!-- Pokemon hp -->
+          <div class="col-md-12 mb-3">
+            <label for="hp" class="form-label">Points de vie</label>
+              <input type="number" id="hp" pattern="^[0-9]{1,3}$"
+                     required class="form-control" 
+                     [(ngModel)]="pokemon.hp" name="hp"
+                     #hp="ngModel"
+                     [class.is-invalid]="hp.invalid && hp.touched"
+              >
+              <div [hidden]="hp.valid || hp.pristine" style="color: red;">
+                   Les points de vie du pokémon sont compris entre 0 et 999.
+              </div>
+          </div>
+
+          <!-- Pokemon cp -->
+          <div class="col-md-12 mb-3">
+            <label for="cp" class="form-label">Dégâts</label>
+            <input type="number" id="cp" pattern="^[0-9]{1,2}$"
+                   required class="form-control"
+                   [(ngModel)]="pokemon.cp" name="cp"
+                   #cp="ngModel"
+                   [class.is-invalid]="cp.invalid && cp.touched"
+            >
+            <div [hidden]="cp.valid || cp.pristine"
+                 class="invalid-feedback">
+                 Les dégâts du pokémon sont compris entre 0 et 99.
+            </div>
+          </div>
+    
+          <!-- Pokemon types -->
+          <div class="col-md-12">
+            <legend class="col-form-label pt-0">Types</legend>
+            <div *ngFor="let type of types" class="form-check">
+              <input type="checkbox" id="{{type}}" class="form-check-input pokemonTypesInput"
+                     [value]="type"
+                     [checked]="hasType(type)"
+                     (click)="selectType($event, type)"
+              >
+              <label [attr.for]="type" class="form-check-label">
+                <span class="{{type | pokemonTypeColor}}">{{type}}</span>
+              </label>
+            </div>
+            <div style="color: red;">{{message}}</div>
+          </div>
+
+          <!-- Submit button -->
+          <hr>
+          <button type="submit" class="btn btn-primary"
+                  [disabled]="!pokemonForm.form.valid">
+                  Valider
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<div *ngIf="!pokemon" class="text-center">
+  <app-loader></app-loader>
+</div>
+
+
